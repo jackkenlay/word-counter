@@ -6,13 +6,7 @@ public class WordCounter {
 	}
 	
 	public String[][] countWords(String inputSentance){
-		String[][] toReturn = {{
-			"material","1"
-		},{
-			"maybe","2"
-		},{
-			"right","1"
-		}};
+		String[][] toReturn = null;
 		
 		return toReturn;
 	}
