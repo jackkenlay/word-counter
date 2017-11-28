@@ -16,8 +16,7 @@ public class WordCounter {
 		if(args.length>0) {
 			WordCounter wordCounter = new WordCounter();
 			System.out.println("Input file name: " + args[0]);
-			String fileText = wordCounter.getTextFromFile(args[0]);
-			String[] wordCount = wordCounter.getWordCount(fileText);
+			String[] wordCount = wordCounter.getWordCountFromFile(args[0]);
 			System.out.println("Output:");
 			for(String s : wordCount) {
 				System.out.println(s);
@@ -26,6 +25,12 @@ public class WordCounter {
 		}else {
 			System.out.println("Please give filename");
 		}
+	}
+	
+	public String[] getWordCountFromFile(String fileName) {
+		String fileText = this.getTextFromFile(fileName);
+		String[] wordCount = this.getWordCount(fileText);
+		return wordCount;
 	}
 	
 	public String getTextFromFile(String fileName) {
