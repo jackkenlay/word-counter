@@ -7,6 +7,7 @@ import javax.swing.JFileChooser;
 import java.awt.BorderLayout;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.net.URL;
 import java.awt.event.ActionEvent;
 import javax.swing.filechooser.FileSystemView;
 import javax.swing.JLabel;
@@ -61,7 +62,8 @@ public class WordCounterGUI {
 		btnOpenFiles.setBounds(12, 12, 242, 51);
 		frame.getContentPane().add(btnOpenFiles);
 		
-		ImageIcon image = new ImageIcon("src/logo.png");
+		URL imageUrl = WordCounterGUI.class.getResource("logo.png");
+		ImageIcon image = new ImageIcon(imageUrl);
 		JLabel label = new JLabel("", image, JLabel.CENTER);
 		JPanel panel = new JPanel(new BorderLayout());
 		panel.setBounds(266, 12, 372, 105);
