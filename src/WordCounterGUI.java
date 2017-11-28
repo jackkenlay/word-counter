@@ -61,7 +61,7 @@ public class WordCounterGUI {
 		btnOpenFiles.setBounds(12, 12, 242, 51);
 		frame.getContentPane().add(btnOpenFiles);
 		
-		ImageIcon image = new ImageIcon("logo.png");
+		ImageIcon image = new ImageIcon("src/logo.png");
 		JLabel label = new JLabel("", image, JLabel.CENTER);
 		JPanel panel = new JPanel(new BorderLayout());
 		panel.setBounds(266, 12, 372, 105);
