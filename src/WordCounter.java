@@ -13,8 +13,7 @@ public class WordCounter {
 		if(args.length>0) {
 			WordCounter wordCounter = new WordCounter();
 			System.out.println("Input file name: " + args[0]);
-			String fileText = wordCounter.getTextFromFile(args[0]);
-			String[] wordCount = wordCounter.getWordCount(fileText);
+			String[] wordCount = wordCounter.getWordCountFromFile(args[0]);
 			System.out.println("Output:");
 			for(String s : wordCount) {
 				System.out.println(s);
@@ -23,6 +22,19 @@ public class WordCounter {
 		}else {
 			System.out.println("Please give filename");
 		}
+	}
+	
+	public String[] getWordCountFromFile(String fileName) {
+		String[] wordCount = {"Nothing Found"};
+		try {
+			String fileText = this.getTextFromFile(fileName);
+			wordCount = this.getWordCount(fileText);
+		}catch (Exception e) {
+			System.out.println("Would handle exceptions here:");
+			e.printStackTrace();
+			System.out.println("Returning nothing found");
+		}
+		return wordCount;	
 	}
 	
 	public String getTextFromFile(String fileName) {
@@ -45,7 +57,7 @@ public class WordCounter {
         return allText;
 	}
 	
-	public String[] getWordCount(String inputSentance) {
+	String[] getWordCount(String inputSentance) {
 		HashMap<String,Integer> countedWords = countWords(inputSentance);
 		ArrayList<String> allWords = new ArrayList<String>(countedWords.keySet());
         sortListByWordLength(allWords);
@@ -57,14 +69,14 @@ public class WordCounter {
         return allWords.toArray(new String[allWords.size()]);
 	}
 	
-	public String capitalizeFirstLetter(String original) {
+	String capitalizeFirstLetter(String original) {
 	    if (original == null || original.length() == 0) {
 	        return original;
 	    }
 	    return original.substring(0, 1).toUpperCase() + original.substring(1);
 	}
 	
-	public void sortListByWordLength(List<String> inputList){
+	private void sortListByWordLength(List<String> inputList){
 		Collections.sort(inputList, new Comparator<String>() {
             @Override
             public int compare(String o1, String o2) {
@@ -75,15 +87,12 @@ public class WordCounter {
                 }
             }
         });
-		//is this needed?
-		//return inputList;
 	}
 	
-	public HashMap<String,Integer> countWords(String inputSentance){
+	HashMap<String,Integer> countWords(String inputSentance){
 		inputSentance = inputSentance.toLowerCase();
 		String[] allWords = inputSentance.split(" ");
 		HashMap <String,Integer> toReturn = new HashMap <String,Integer>();
-
 		for(int i = 0; i < allWords.length; i++) {
 			String currentWord = allWords[i];
 			if(!isContainedInOtherWords(allWords, currentWord)) {
@@ -91,24 +100,21 @@ public class WordCounter {
 				toReturn.put(currentWord, count);
 			}
 		}
-
 		return toReturn;
 	}
 	
-	public boolean isContainedInOtherWords(String[] words, String inputWord){
+	boolean isContainedInOtherWords(String[] words, String inputWord){
 		boolean includedInOtherWord = false;
-
 		for(int i = 0; i < words.length; i++) {
 			if(words[i].contains(inputWord)&& words[i].length()!=inputWord.length()) {
 				includedInOtherWord = true;
 				break;
 			}
 		}
-
 		return includedInOtherWord;
 	}
 	
-	public int getWordCount(String[] words, String inputWord) {
+	int getWordCount(String[] words, String inputWord) {
 		int counter = 0;
 		for(int i = 0; i < words.length; i++) {
 			if(words[i].equals(inputWord)) {
