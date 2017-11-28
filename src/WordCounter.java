@@ -9,6 +9,9 @@ import java.util.HashMap;
 import java.util.List;
 
 public class WordCounter {
+	/*
+	 * change them to privte
+	 */
 	public static void main(String[] args) {
 		if(args.length>0) {
 			WordCounter wordCounter = new WordCounter();
