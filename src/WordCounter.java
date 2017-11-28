@@ -1,15 +1,86 @@
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.List;
 
 public class WordCounter {
-
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+		if(args.length>0) {
+			WordCounter wordCounter = new WordCounter();
+			System.out.println("Input file name: " + args[0]);
+			String fileText = wordCounter.getTextFromFile(args[0]);
+			String[] wordCount = wordCounter.getWordCount(fileText);
+			System.out.println("Output:");
+			for(String s : wordCount) {
+				System.out.println(s);
+			}
+			System.out.println("Finished.");
+		}else {
+			System.out.println("Please give filename");
+		}
+	}
+	
+	public String getTextFromFile(String fileName) {
+        String line = null;
+        String allText = "";
+        try {
+            FileReader fileReader = new FileReader(fileName);
+            BufferedReader bufferedReader = new BufferedReader(fileReader);
+            while((line = bufferedReader.readLine()) != null) {
+                allText +=line;
+            }
+            bufferedReader.close();         
+        }
+        catch(FileNotFoundException ex) {
+            System.out.println("Unable to open file '" + fileName + "'");                
+        }
+        catch(IOException ex) {
+            System.out.println("Error reading file '" + fileName + "'");
+        }
+        return allText;
+	}
+	
+	public String[] getWordCount(String inputSentance) {
+		HashMap<String,Integer> countedWords = countWords(inputSentance);
+		ArrayList<String> allWords = new ArrayList<String>(countedWords.keySet());
+        sortListByWordLength(allWords);
+        for(int i = 0; i < allWords.size(); i++) {
+        	int count = countedWords.get(allWords.get(i));        	
+        	allWords.set(i,allWords.get(i) + ": " + count);
+        	allWords.set(i,capitalizeFirstLetter(allWords.get(i)));
+        }
+        return allWords.toArray(new String[allWords.size()]);
+	}
+	
+	public String capitalizeFirstLetter(String original) {
+	    if (original == null || original.length() == 0) {
+	        return original;
+	    }
+	    return original.substring(0, 1).toUpperCase() + original.substring(1);
+	}
+	
+	public void sortListByWordLength(List<String> inputList){
+		Collections.sort(inputList, new Comparator<String>() {
+            @Override
+            public int compare(String o1, String o2) {
+                if(o1.length()>o2.length()){
+                    return 1;
+                }else{
+                    return o1.compareTo(o2);
+                }
+            }
+        });
+		//is this needed?
+		//return inputList;
 	}
 	
 	public HashMap<String,Integer> countWords(String inputSentance){
+		inputSentance = inputSentance.toLowerCase();
 		String[] allWords = inputSentance.split(" ");
 		HashMap <String,Integer> toReturn = new HashMap <String,Integer>();
 
