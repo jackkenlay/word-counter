@@ -1,17 +1,16 @@
 import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JTextArea;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
-
 import java.awt.BorderLayout;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.util.Arrays;
 import java.awt.event.ActionEvent;
-import javax.swing.JTextField;
 import javax.swing.filechooser.FileSystemView;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 public class WordCounterGUI {
 	private JFrame frame;
@@ -39,24 +38,35 @@ public class WordCounterGUI {
 
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 450, 300);
+		frame.setBounds(100, 100, 650, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		JButton btnNewButton = new JButton("Count Words");
+		JButton btnNewButton = new JButton("Count Words From Text Box");
+		btnNewButton.setBounds(12, 63, 242, 54);
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				processInputText();
 			}
 		});
+		frame.getContentPane().setLayout(null);
 
-		frame.getContentPane().add(btnNewButton, BorderLayout.CENTER);
+		frame.getContentPane().add(btnNewButton);
 		
 		inputTextField = new JTextArea();
-		frame.getContentPane().add(inputTextField, BorderLayout.WEST);
+		inputTextField.setBounds(12, 124, 626, 130);
+		frame.getContentPane().add(inputTextField);
 		inputTextField.setColumns(10);
 		
-		btnOpenFiles = new JButton("Open files");
-		frame.getContentPane().add(btnOpenFiles, BorderLayout.NORTH);
+		btnOpenFiles = new JButton("Count Words from file");
+		btnOpenFiles.setBounds(12, 12, 242, 51);
+		frame.getContentPane().add(btnOpenFiles);
+		
+		ImageIcon image = new ImageIcon("logo.png");
+		JLabel label = new JLabel("", image, JLabel.CENTER);
+		JPanel panel = new JPanel(new BorderLayout());
+		panel.setBounds(266, 12, 372, 105);
+		frame.getContentPane().add(panel);
+		panel.add( label, BorderLayout.CENTER );
 		
 		btnOpenFiles.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -84,7 +94,8 @@ public class WordCounterGUI {
 	}
 
 	private void displayResults(String[] results) {
-		String text = this.seperateTextArray(results);
+		String text = "Results: \n"; 
+		text += this.seperateTextArray(results);
 		inputTextField.setText("");
 		inputTextField.setText(text);
 	}
@@ -99,7 +110,7 @@ public class WordCounterGUI {
 
 	private void processInputText() {
 		String text = this.getTextFieldText();
-		if((text.length()==0)||(text == null) || (text.equals("Please enter text:"))){
+		if((text.length()==0)||(text == null) || (text.equals("Please enter text:")) || (text.length()>10 && text.substring(0, 10).equals("Results: \n"))){
 			inputTextField.setText("Please enter text:");	
 		}else {
 			String[] results = wordCounter.getWordCount(text);
